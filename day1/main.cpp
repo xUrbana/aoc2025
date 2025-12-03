@@ -1,13 +1,11 @@
 #include <cassert>
-#include <fstream>
 #include <cstdint>
-#include <stdexcept>
 #include <string>
 #include <charconv>
-#include <generator>
 #include <print>
 #include <cstdlib>
 #include <vector>
+#include "../utils.hpp"
 
 int16_t parse_spin_amount(const std::string &s)
 {
@@ -17,20 +15,6 @@ int16_t parse_spin_amount(const std::string &s)
     std::from_chars(s.data() + 1, s.data() + s.size(), result);
 
     return result * sign;
-}
-
-std::generator<std::string> read_lines(const std::string &file)
-{
-    std::ifstream input(file);
-    if (!input.is_open())
-    {
-        throw std::invalid_argument("Failed to open input file.");
-    }
-
-    std::string line;
-    while (std::getline(input, line))
-        co_yield line;
-
 }
 
 namespace p1
@@ -45,7 +29,7 @@ namespace p1
     {
         int16_t dial = 50;
         uint16_t zero_count = 0;
-        for (const auto &line : read_lines("input.txt"))
+        for (const auto &line : utils::read_lines("input.txt"))
         {
             spin_dial(dial, parse_spin_amount(line));
             if (dial == 0)
@@ -104,7 +88,7 @@ namespace p2
     {
         int16_t dial = 50;
         uint32_t zero_count = 0;
-        for (const auto &line : read_lines("input.txt"))
+        for (const auto &line : utils::read_lines("input.txt"))
         {
             auto zero_hits = spin_dial(dial, parse_spin_amount(line));
             zero_count += zero_hits;
