@@ -12,8 +12,7 @@ using range_type = std::pair<uint64_t, uint64_t>;
 std::generator<range_type> read_ranges(const std::string &file)
 {
     const auto line = *utils::read_lines("input.txt").begin();
-    auto split_comma = line | std::views::split(',');
-    for (const auto &range : split_comma)
+    for (const auto &range : std::views::split(line, ','))
     {
         auto split_range = range | std::views::split('-');
         std::vector<std::string> parts = std::ranges::to<std::vector<std::string>>(split_range);
@@ -53,11 +52,10 @@ void test(range_type r, uint64_t expected_sum, auto &id_checker)
     assert(range_invalid_id_sum(start, end, id_checker) == expected_sum);
 }
 
-auto make_tester(auto func)
+auto make_tester(const auto &func)
 {
     return [&](range_type r, uint64_t sum) { test(r, sum, func); };
 }
-
 
 namespace p1
 {
