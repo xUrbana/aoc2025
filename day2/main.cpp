@@ -53,6 +53,11 @@ void test(range_type r, uint64_t expected_sum, auto &id_checker)
     assert(range_invalid_id_sum(start, end, id_checker) == expected_sum);
 }
 
+auto make_tester(auto func)
+{
+    return [&](range_type r, uint64_t sum) { test(r, sum, func); };
+}
+
 
 namespace p1
 {
@@ -75,7 +80,7 @@ namespace p1
 
     void test()
     {
-        auto _test = [](range_type r, auto s) { ::test(r, s, is_invalid_id); };
+        auto _test = make_tester(is_invalid_id);
         _test({11, 22}, 33);
     }
 }
@@ -125,7 +130,7 @@ namespace p2
 
     void test()
     {
-        auto _test = [](range_type r, auto s) { ::test(r, s, is_invalid_id); };
+        auto _test = make_tester(is_invalid_id);
         _test({11, 22}, 33);
         _test({95, 115}, 210);
         _test({1188511880, 1188511890}, 1188511885);
