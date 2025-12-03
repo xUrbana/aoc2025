@@ -23,7 +23,7 @@ std::generator<range_type> read_ranges(const std::string &file)
     }
 }
 
-uint64_t range_invalid_id_sum(uint64_t start, uint64_t end, auto &id_checker)
+uint64_t range_invalid_id_sum(uint64_t start, uint64_t end, const auto &id_checker)
 {
     uint64_t invalid_id_sum = 0;
     for (auto s = start; s <= end; s++)
