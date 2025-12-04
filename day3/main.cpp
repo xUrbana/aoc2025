@@ -8,9 +8,10 @@ uint64_t joltage(const std::string &bank, uint8_t num_cells)
 {
     std::stringstream ss;
     size_t start_pos = 0;
-    
+
     // in each iteration of the loop find the next digit
-    // cannot search for next digit further than bank.size()-i+1
+    // cannot search for next digit further than bank.size()-i-1
+    // since you couldnt complete a full number if you searched further
     for (int16_t i = num_cells-1; i >= 0; i--)
     {
         size_t largest_digit_index = start_pos;
@@ -81,8 +82,8 @@ namespace p2
 
 int main()
 {
-    p1::test();
-    p1::solve();
-    p2::test();
+    //p1::test();
+    //p1::solve();
+    //p2::test();
     p2::solve();
 }
