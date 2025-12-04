@@ -1,15 +1,8 @@
 #include "../utils.hpp"
 #include <cassert>
-#include <limits>
 #include <print>
 #include <string>
 #include <sstream>
-#include <numeric>
-
-inline uint8_t ord(const char &c)
-{
-    return c - '0';
-}
 
 uint64_t joltage(const std::string &bank, uint8_t num_cells)
 {
