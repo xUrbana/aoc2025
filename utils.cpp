@@ -15,4 +15,14 @@ namespace utils
         while (std::getline(input, line))
             co_yield line;
     }
+
+    std::vector<std::string> read_grid(const std::string &file)
+    {
+        std::vector<std::string> grid;
+        for (const auto &line : read_lines(file))
+        {
+            grid.push_back(line);
+        }
+        return grid;
+    }
 }
