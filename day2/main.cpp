@@ -1,27 +1,10 @@
 #include "../utils.hpp"
-#include <ranges>
 #include <cstdint>
 #include <string>
 #include <print>
-#include <ranges>
-#include <vector>
 #include <cassert>
 
-using range_type = std::pair<uint64_t, uint64_t>;
-
-std::generator<range_type> read_ranges(const std::string &file)
-{
-    const auto line = *utils::read_lines("input.txt").begin();
-    for (const auto &range : std::views::split(line, ','))
-    {
-        auto split_range = range | std::views::split('-');
-        std::vector<std::string> parts = std::ranges::to<std::vector<std::string>>(split_range);
-        co_yield std::make_pair(
-            std::stoull(parts[0]),
-            std::stoull(parts[1])
-        );
-    }
-}
+using Range = utils::Range<uint64_t>;
 
 uint64_t range_invalid_id_sum(uint64_t start, uint64_t end, const auto &id_checker)
 {
@@ -39,14 +22,14 @@ uint64_t range_invalid_id_sum(uint64_t start, uint64_t end, const auto &id_check
 void solve(auto &id_checker)
 {
     uint64_t invalid_id_sum = 0;
-    for (const auto &[start, end] : read_ranges("input.txt"))
+    for (const auto &[start, end] : utils::read_ranges<Range::first_type>("input.txt"))
     {
         invalid_id_sum += range_invalid_id_sum(start, end, id_checker);
     }
     std::println("{}", invalid_id_sum);
 }
 
-void test(range_type r, uint64_t expected_sum, auto &id_checker)
+void test(Range r, uint64_t expected_sum, auto &id_checker)
 {
     auto &[start, end] = r;
     assert(range_invalid_id_sum(start, end, id_checker) == expected_sum);
@@ -54,7 +37,7 @@ void test(range_type r, uint64_t expected_sum, auto &id_checker)
 
 auto make_tester(const auto &func)
 {
-    return [&](range_type r, uint64_t sum) { test(r, sum, func); };
+    return [&](Range r, uint64_t sum) { test(r, sum, func); };
 }
 
 namespace p1
